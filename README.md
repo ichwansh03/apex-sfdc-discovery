@@ -1,5 +1,5 @@
 ## <a name="introduction"></a> Introduction
-The goal of this repository is
+The goal of this repository is summary notes from Apex Developer Guide to create CRM(Customer Relationship Management) sites using Salesforce. 
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -10,6 +10,7 @@ The goal of this repository is
 - [Data Manipulation Language](#data-manipulation-language)
 - [SOQL and SOSL Queries](#soql-and-sosl-queries)
 - [Apex Security and Sharing](#apex-security-and-sharing)
+- [Additional References](#additional-references)
 
 ## <a name="apex-spesification"></a> Apex Spesification
 The @IsTest annotation on methods is equivalent to the testMethod keyword. As best practice, Salesforce recommends that you use @IsTest rather than testMethod. The testMethod keyword may be versioned out in a future release.
@@ -180,3 +181,6 @@ insert a;
 String queryName = '%' + name + '%'; 
 List<Contact> queryResult = [SELECT Id FROM Contact WHERE (IsDeleted = false and Name LIKE :queryName)];
 ```
+
+## <a name="additional-references"></a> Additional References
+[salesforce_apex_developer_guide.pdf](https://github.com/ichwansh03/apex-sfdc-discovery/files/14533185/salesforce_apex_developer_guide.pdf)
