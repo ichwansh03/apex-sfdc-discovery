@@ -1,5 +1,5 @@
 ## <a name="introduction"></a> Introduction
-The goal of this repository is summary notes from Apex Developer Guide to create CRM(Customer Relationship Management) sites using Salesforce. CRM stands for Customer Relationship Management. This technology allows you to manage relationships with your customers and prospects and track data related to all of your interactions. It also helps teams collaborate, both internally and externally, gather insights from social media, track important metrics, and communicate via email, phone, social, and other channels. Salesforce has everything you need to run your business from anywhere. Using standard products and features, you can manage relationships with prospects and customers, collaborate and engage with employees and partners, and store your data securely in the cloud.
+The goal of this repository is summary notes from Apex Developer Guide to create CRM site using Salesforce. CRM stands for Customer Relationship Management. Salesforce is a global web-based application and cloud computing company best known for its Customer Relationship Management (CRM) product. They specialize in Software-as-a-Service (SaaS) to help users handle all of their business needs.
 
 ## Table of Contents
 - [Introduction](#introduction)
