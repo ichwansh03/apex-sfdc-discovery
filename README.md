@@ -184,3 +184,4 @@ List<Contact> queryResult = [SELECT Id FROM Contact WHERE (IsDeleted = false and
 
 ## <a name="additional-references"></a> Additional References
 [salesforce_apex_developer_guide.pdf](https://github.com/ichwansh03/apex-sfdc-discovery/files/14533185/salesforce_apex_developer_guide.pdf)
+[Salesforce course](https://trailhead.salesforce.com/today)
