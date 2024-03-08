@@ -7,9 +7,9 @@ The goal of this repository is
 - [Data Type, Conditions and Loops](#data-type-conditions-and-loops)
 - [Classes, Objects and Interfaces](#classes-objects-and-interfaces)
 - [Annotations](#annotations)
-- [Data Manipulation Language]
-- [SOQL and SOSL Queries]
-- [Apex Security and Sharing]
+- [Data Manipulation Language](#data-manipulation-language)
+- [SOQL and SOSL Queries](#soql-and-sosl-queries)
+- [Apex Security and Sharing](#apex-security-and-sharing)
 
 ## <a name="apex-spesification"></a> Apex Spesification
 The @IsTest annotation on methods is equivalent to the testMethod keyword. As best practice, Salesforce recommends that you use @IsTest rather than testMethod. The testMethod keyword may be versioned out in a future release.
@@ -122,11 +122,61 @@ The valid values for the parameters to indicate whether serialization and deseri
 • always: always allowed for any Apex code
 
 - The `@RemoteAction` annotation provides support for Apex methods used in Visualforce to be called via JavaScript. This process is often referred to as JavaScript remoting. Method with this annotation must be static either global or public.
-
 - Use the `@TestVisible` annotation to allow test methods to access private or protected members of another class outside the test class
-
 - The `@RestResource` annotation is used at the class level and enables you to expose an Apex class as a REST resource. Class must be defined as global, case-sensitive and can contain a wildcard (*) in url.
-
 - For the Apex REST annotation uses `@HttpPost`, `@HttpDelete`, `@HttpGet`, `@HttpPut`, `@HttpPatch` and `@ReadOnly`
-
 - An sObject variable represents a row of data and can only be declared in Apex using SOAP API name of the object.
+
+## <a name="data-manipulation-language"></a> Data Manipulation Language
+- Adding and retrieveing data with DML:
+```
+Account a = new Account(Name='Account Example'); 
+insert a;
+```
+- You can insert records related to existing records if a relationship has already been defined between the two objects, such as a lookup or master-detail relationship
+- Fields on related records can't be updated with the same call to the DML operation and require a separate DML call. Updated it with several value
+- Using the upsert operation, you can either insert or update an existing record in one call. To determine whether a record already exists, the upsert statement or Database method uses the record’s ID as the key to match records, a custom external ID field, or a standard field with the idLookup attribute set to true
+- Use merge operation when you have duplicate lead, contact, case, or account records in the database, cleaning up your data and consolidating the records might be a good idea.
+- delete records aren’t deleted permanently from Salesforce, but they are placed in the Recycle Bin for 15 days from where they can be restored. Restoring deleted records is covered using undelete
+- DML statements return run-time exceptions if something went wrong in the database during the execution of the DML operations. You can handle the exceptions in your code by wrapping your DML statements within try-catch blocks.
+- The `allowFieldTruncation` (Boolean) property specifies the truncation behavior of strings. In Apex saved against API versions previous to 15.0, if you specify a value for a string and that value is too large, the value is truncated.
+- The `assignmentRuleHeader.assignmentRuleID/useDefaultRule` property specifies the assignment rule to be used when creating a case or lead. `assignmentRuleID`: The ID of an assignment rule for the case or lead. `useDefaultRule`: Indicates whether the default (active) assignment rule will be used for a case or lead.
+- The `DuplicateRuleHeader.AllowSave` property determines whether a record that’s identified as a duplicate can be saved.
+- Use `Database.rollback(databaseSavepoint)` and `Database.setSavepoint()` to use transaction. For Apex tests with API version 60.0 or later, all savepoints are released when `Test.startTest()` and `Test.stopTest()` are called. If any savepoints are reset, a `SAVEPOINT_RESET` event is logged.
+- In Apex, you can use `FOR UPDATE` to lock sObject records while they’re being updated in order to prevent race conditions and other thread safety problems. While an sObject record is locked, no other client or user is allowed to make updates either through code or the Salesforce user interface. `Account[] accts = [SELECT Id FROM Account LIMIT 2 FOR UPDATE];`
+
+## <a name="soql-and-sosl-queries"></a> SOQL and SOSL Queries
+- In the API, the value of the FIND clause is demarcated with braces. For example: `FIND {Account*} IN ALL FIELDS RETURNING Account (Id, Name), Opportunity`
+- Example foreign key and parent-child relationship: `System.debug([SELECT Account.Name FROM Contact WHERE FirstName = 'Caroline'].Account.Name);`
+- `ORDER BY` cannot use in SOQL, but `GROUP BY` is can.
+  
+- Bind expressions can be used as: 
+• The search string in FIND clauses. 
+• The filter literals in WHERE clauses. 
+• The value of the IN or NOT IN operator in WHERE clauses, allowing filtering on a dynamic set of values. Note that this is of particular use with a list of IDs or Strings, though it works with lists of any type. 
+• The division names in WITH DIVISION clauses. 
+• The numeric value in LIMIT clauses. 
+• The numeric value in OFFSET clauses.
+
+- The break and continue keywords can be used in both types of inline query for loop formats. When using the sObject list format, continue skips to the next list of sObjects.
+- You can assign a List variable directly to the results of a SOQL query: `List<Account> accts = [SELECT Id, Name FROM Account LIMIT 1000];`
+- Apex automatically generates IDs for each object in an sObject list that was inserted or upserted using DML. Therefore, a list that contains more than one instance of an sObject cannot be inserted or upserted even if it has a null ID. This situation would imply that two IDs would need to be written to the same structure in memory, which is illegal.
+- sObject and list expressions can be expanded with method references and list expressions, respectively, to form new expressions: `String accNameLowercase = [SELECT Name FROM Account][0].Name.toLowerCase();`
+- To create a dynamic SOQL query at run time, use the `Database.query(string)` or `Database.queryWithBinds(string, bindVariablesMap, accessLevel)` methods, in one of the following ways. Return can be sObject or List<sObject>.
+- `Database.countQuery` and `Database.countQueryWithBinds`: Return the number of records that a dynamic SOQL query would return when executed.
+- To create a dynamic SOSL query at run time, use the search query method: `List<> myQuery = search.query(SOSL_search_string);`
+
+## <a name="apex-security-and-sharing"></a> Apex Security and Sharing
+- Enforcing sharing rules by using the with sharing keyword doesn’t enforce the user's permissions and field-level security. Apex always has access to all fields and objects in an organization, ensuring that code won’t fail to run because of fields or objects that are hidden from a user.
+- You can run database operations in user mode rather than in the default system mode by using SOQL or SOSL queries with special keywords or by using DML method overloads: `List<Account> acc = [SELECT Id FROM Account WITH USER_MODE]`
+- Use the stripInaccessible method to enforce field-level and object-level data protection. This method can be used to strip the fields and relationship fields from query and subquery results that the user can’t access.
+- Use the WITH SECURITY_ENFORCED clause to enable field- and object-level security permissions checking for SOQL SELECT queries in Apex code, including subqueries and cross-object relationships: `List<Account> act1 = [SELECT Id, (SELECT LastName FROM Contacts) FROM Account WHERE Name like 'Acme' WITH SECURITY_ENFORCED]`
+- To access sharing programmatically, you must use the share object associated with the standard or custom object for which you want to share: `MyCustomObject__Share`. If the owner of the record changes, the sharing is automatically deleted.
+- Open redirects through static resources can expose users to the risk of unintended, and possibly malicious, redirects.
+- Cross-site scripting (XSS) attacks are where malicious HTML or client-side scripting is provided to a web application. The web application includes malicious scripting in a response to a user who unknowingly becomes the victim of the attack.
+- When using components that have set the escape attribute to false, or when including formulas outside of a Visualforce component, output is unfiltered and must be validated for security. This is especially important when using formula expressions.
+- To prevent a SOQL injection attack, avoid using dynamic SOQL queries. Instead, use static queries and binding variables. The preceding vulnerable example can be rewritten using static SOQL: 
+```
+String queryName = '%' + name + '%'; 
+List<Contact> queryResult = [SELECT Id FROM Contact WHERE (IsDeleted = false and Name LIKE :queryName)];
+```
