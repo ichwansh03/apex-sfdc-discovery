@@ -1,5 +1,5 @@
 ## <a name="introduction"></a> Introduction
-The goal of this repository is summary notes from Apex Developer Guide to create CRM(Customer Relationship Management) sites using Salesforce. 
+The goal of this repository is summary notes from Apex Developer Guide to create CRM(Customer Relationship Management) sites using Salesforce. CRM stands for Customer Relationship Management. This technology allows you to manage relationships with your customers and prospects and track data related to all of your interactions. It also helps teams collaborate, both internally and externally, gather insights from social media, track important metrics, and communicate via email, phone, social, and other channels. Salesforce has everything you need to run your business from anywhere. Using standard products and features, you can manage relationships with prospects and customers, collaborate and engage with employees and partners, and store your data securely in the cloud.
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -183,5 +183,8 @@ List<Contact> queryResult = [SELECT Id FROM Contact WHERE (IsDeleted = false and
 ```
 
 ## <a name="additional-references"></a> Additional References
-[salesforce_apex_developer_guide.pdf](https://github.com/ichwansh03/apex-sfdc-discovery/files/14533185/salesforce_apex_developer_guide.pdf)
-[Salesforce course](https://trailhead.salesforce.com/today)
+Guideline for use Apex: [salesforce_apex_developer_guide.pdf](https://github.com/ichwansh03/apex-sfdc-discovery/files/14533185/salesforce_apex_developer_guide.pdf)
+
+Salesforce course platform: [Salesforce course](https://trailhead.salesforce.com/today)
+
+Trying Apex for free: [Workbench](https://workbench.developerforce.com/)
