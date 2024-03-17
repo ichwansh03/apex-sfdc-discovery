@@ -1,0 +1,7 @@
+@isTest
+public class HelloTest {
+
+    static testMethod void axaTest() {
+        System.debug('test');
+    }
+}

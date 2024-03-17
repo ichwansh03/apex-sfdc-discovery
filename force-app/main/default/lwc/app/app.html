@@ -1,0 +1,25 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-17-2024
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+-->
+<template>
+    <template lwc:if={ready}>
+        <div id="display">
+            <div>
+                <!-- <div>Name: {name}</div>
+                <div>Description: {description}</div> -->
+                <c-bike bike={bike}></c-bike>
+                <lightning-badge label={material}></lightning-badge>
+                <lightning-badge label={category}></lightning-badge>
+                <div>Price: {price}</div>
+                <div>img src={pictureUrl}</div>
+            </div>
+        </div>
+    </template>
+    <template lwc:else>
+        <div id="waiting">Loading...</div>
+    </template>
+</template>
