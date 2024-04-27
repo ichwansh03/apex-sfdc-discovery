@@ -5,7 +5,7 @@
  * @last modified on  : 04-27-2024
  * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
 **/
-public class GetRestApi {
+public class RestHttp {
     
     static void getAnimals() {
         Http http = new Http();
@@ -26,5 +26,24 @@ public class GetRestApi {
                 System.debug(animal);
             }
         }
+    }
+
+    static void createAnimals() {
+        Http http = new Http();
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://th-apex-http-callout.herokuapp.com/animals');
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        //set the body as a JSON object
+        request.setBody('{"name":"garuda"}');
+
+        HttpResponse response = http.send(request);
+        //parse the JSON response
+        if(response.getStatusCode() == 201) {
+            System.debug(response.getBody());
+        } else {
+            System.debug('the status code returned was not expected: '+response.getStatusCode()+' : '+response.getStatus());
+        }
+
     }
 }
