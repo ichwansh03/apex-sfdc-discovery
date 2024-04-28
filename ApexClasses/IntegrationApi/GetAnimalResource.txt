@@ -1,0 +1,1 @@
+{"animals": ["kuda nil", "badak sumatra", "harimau sumatra"]}
