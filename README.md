@@ -137,6 +137,7 @@ insert a;
 - You can insert records related to existing records if a relationship has already been defined between the two objects, such as a lookup or master-detail relationship
 - Fields on related records can't be updated with the same call to the DML operation and require a separate DML call. Updated it with several value
 - Using the upsert operation, you can either insert or update an existing record in one call. To determine whether a record already exists, the upsert statement or Database method uses the record’s ID as the key to match records, a custom external ID field, or a standard field with the idLookup attribute set to true
+- You can used external id with upsert, just check External ID in field and use `upsert listName external_id__c` to set update record when existing and insert when is null.
 - Use merge operation when you have duplicate lead, contact, case, or account records in the database, cleaning up your data and consolidating the records might be a good idea.
 - delete records aren’t deleted permanently from Salesforce, but they are placed in the Recycle Bin for 15 days from where they can be restored. Restoring deleted records is covered using undelete
 - DML statements return run-time exceptions if something went wrong in the database during the execution of the DML operations. You can handle the exceptions in your code by wrapping your DML statements within try-catch blocks.
