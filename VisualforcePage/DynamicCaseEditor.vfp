@@ -1,0 +1,16 @@
+<apex:page standardController="Case" extensions="DynamicCaseLoader">
+    <br/>
+    <apex:form >
+    	<apex:repeat value="{!caseFieldList}" var="cf">
+        	<h2>
+                {!cf}
+            </h2>
+            <br/>
+            <!--https://axaid-ccc--fullsb--c.sandbox.vf.force.com/apex/DynamicCaseEditor?id=5000K00001jM7TNQA0-->
+            <apex:inputText value="{!caseDetails[cf]}" rendered="{!IF(contains(cf, "Contact"), true, false)}"/>
+            <apex:outputText value="{!caseDetails[cf]}" rendered="{!IF(contains(cf, "Contact"), false, true)}"/>
+            <br/><br/>
+        </apex:repeat>
+    </apex:form>
+</apex:page>
+                

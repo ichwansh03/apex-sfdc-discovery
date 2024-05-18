@@ -1,0 +1,7 @@
+<apex:page standardController="Contact" extensions="DynamicComponentController">
+    <apex:dynamicComponent componentValue="{!headerWithDueDateCheck}"/>
+    <apex:form >
+    	<apex:inputField value="{!Contact.LastName}"/>
+        <apex:commandButton value="Save" action="{!save}"/>
+    </apex:form>
+</apex:page>
